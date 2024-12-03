@@ -1,29 +1,32 @@
 import React, { useState } from "react";
 
 const JobDescriptionForm = ({ onSubmit }) => {
-  const [jobDescription, setJobDescription] = useState("");
+  const [description, setDescription] = useState("");
 
-  const handleChange = (e) => setJobDescription(e.target.value);
-
-  const handleSubmit = () => {
-    if (jobDescription) onSubmit(jobDescription);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (description.trim()) {
+      onSubmit(description);
+      setDescription("");
+    }
   };
 
   return (
-    <div className="mb-6 bg-neutral-800 p-6 rounded-lg shadow-md">
+    <form onSubmit={handleSubmit} className="flex flex-col space-y-4">
       <textarea
-        placeholder="Enter Job Description"
-        value={jobDescription}
-        onChange={handleChange}
-        className="w-full h-40 p-4 text-neutral-300 border border-neutral-600 rounded-lg shadow-inner focus:outline-none focus:ring-2 focus:ring-blue-400 bg-neutral-900"
+        className="w-full p-4 text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+        placeholder="Paste the job description here..."
+        value={description}
+        onChange={(e) => setDescription(e.target.value)}
+        rows={6}
       />
       <button
-        onClick={handleSubmit}
-        className="mt-4 w-full px-6 py-3 bg-blue-600 text-white font-medium rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300"
+        type="submit"
+        className="bg-blue-600 text-white font-semibold py-2 px-4 rounded-md hover:bg-blue-700 transition"
       >
         Analyze Job Description
       </button>
-    </div>
+    </form>
   );
 };
 

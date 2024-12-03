@@ -10,7 +10,7 @@ const App = () => {
   const [comparisonResult, setComparisonResult] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [jobDescResponse, setJobDescResponse] = useState(""); // New state for storing job description response
+  const [jobDescResponse, setJobDescResponse] = useState("");
 
   const handleJobDescriptionSubmit = async (description) => {
     setLoading(true);
@@ -18,7 +18,7 @@ const App = () => {
     try {
       const jobDescData = await parseJobDescriptionAPI(description);
       setJobDescription(jobDescData);
-      setJobDescResponse(jobDescData); // Store the response here
+      setJobDescResponse(jobDescData);
     } catch (err) {
       setError("Failed to parse job description.");
       console.error(err);
@@ -50,16 +50,14 @@ const App = () => {
     }
   };
 
-  // Helper function to render the job description response as a list of items
   const renderJobDescResponse = (response) => {
-    if (typeof response === 'object' && response !== null) {
+    if (typeof response === "object" && response !== null) {
       return Object.keys(response).map((key) => {
-        // Check if the value is an array (e.g., Skills) and join with commas
         if (Array.isArray(response[key])) {
           return (
             <div key={key} className="mb-4">
               <strong className="text-lg">{key}:</strong>
-              <p>{response[key].join(", ")}</p> {/* Join array values with commas */}
+              <p>{response[key].join(", ")}</p>
             </div>
           );
         } else {
@@ -76,46 +74,45 @@ const App = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center p-6">
-      <div className="w-full max-w-5xl bg-gray-800 text-white rounded-lg shadow-lg p-8 flex">
-        <div className="flex-1 mr-8">
-          <h1 className="text-5xl font-extrabold text-white mb-8 text-center">
-            Job Fit Analyzer
-          </h1>
-          <JobDescriptionForm onSubmit={handleJobDescriptionSubmit} />
-          <ResumeUpload onUploadComplete={handleResumeUpload} />
-          <div className="mt-8 flex justify-center space-x-6">
-            <button
-              onClick={handleCompare}
-              disabled={loading}
-              className={`px-8 py-3 text-white font-semibold rounded-lg transform transition duration-200 ${
-                loading
-                  ? "bg-gray-500 cursor-not-allowed"
-                  : "bg-gray-600 hover:bg-gray-700"
-              }`}
-            >
-              {loading ? "Processing..." : "Compare"}
-            </button>
+    <div className="min-h-screen bg-gradient-to-br from-gray-800 to-gray-900 flex flex-col items-center justify-center p-6">
+      <div className="w-full max-w-7xl bg-gray-800 text-white rounded-lg shadow-lg p-8 grid grid-cols-1 md:grid-cols-2 gap-8">
+        {/* Left Section */}
+        <div className="flex flex-col space-y-6">
+          <h1 className="text-4xl font-bold text-center mb-4">Job Fit Analyzer</h1>
+          <div className="bg-gray-700 p-6 rounded-lg shadow-md">
+            <h2 className="text-xl font-semibold mb-4">Enter Job Description</h2>
+            <JobDescriptionForm onSubmit={handleJobDescriptionSubmit} />
           </div>
-          {error && (
-            <p className="mt-4 text-center text-red-500 font-medium">{error}</p>
-          )}
+          <div className="bg-gray-700 p-6 rounded-lg shadow-md">
+            <h2 className="text-xl font-semibold mb-4">Upload Resume</h2>
+            <ResumeUpload onUploadComplete={handleResumeUpload} />
+          </div>
+          <button
+            onClick={handleCompare}
+            disabled={loading}
+            className={`w-full px-6 py-3 text-white font-semibold rounded-lg transition duration-200 shadow-md ${
+              loading
+                ? "bg-gray-500 cursor-not-allowed"
+                : "bg-blue-600 hover:bg-blue-700"
+            }`}
+          >
+            {loading ? "Processing..." : "Compare"}
+          </button>
+          {error && <p className="mt-4 text-center text-red-500">{error}</p>}
         </div>
 
-        <div className="flex-1">
+        {/* Right Section */}
+        <div className="flex flex-col space-y-6">
           {jobDescResponse && (
-            <div className="mt-8 bg-gray-700 p-4 rounded-lg shadow-md">
-              <h2 className="text-xl font-semibold text-white mb-4">
-                Job Description Output:
-              </h2>
-              <div className="text-gray-300">
-                {renderJobDescResponse(jobDescResponse)}
-              </div>
+            <div className="bg-gray-700 p-6 rounded-lg shadow-md">
+              <h2 className="text-xl font-semibold mb-4">Job Description Analysis</h2>
+              <div className="text-gray-300">{renderJobDescResponse(jobDescResponse)}</div>
             </div>
           )}
 
           {comparisonResult && (
-            <div className="mt-8">
+            <div className="bg-gray-700 p-6 rounded-lg shadow-md">
+              <h2 className="text-xl font-semibold mb-4">Comparison Results</h2>
               <CompareResults comparisonResult={comparisonResult} />
             </div>
           )}

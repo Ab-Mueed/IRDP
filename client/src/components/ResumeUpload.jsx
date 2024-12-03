@@ -1,79 +1,36 @@
-import { useState } from "react";
-import axios from "axios";
+import React, { useState } from "react";
 
 const ResumeUpload = ({ onUploadComplete }) => {
-  const [file, setFile] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [selectedFile, setSelectedFile] = useState(null);
 
   const handleFileChange = (e) => {
-    setFile(e.target.files[0]);
-    setError("");
+    setSelectedFile(e.target.files[0]);
   };
 
-  const handleFileUpload = async () => {
-    if (!file) {
-      setError("Please select a file to upload.");
-      return;
-    }
-
-    const formData = new FormData();
-    formData.append("resume_file", file);
-
-    setLoading(true);
-
-    try {
-      const response = await axios.post(
-        "http://127.0.0.1:5000/parse-resume",
-        formData,
-        {
-          headers: { "Content-Type": "multipart/form-data" },
-        }
-      );
-
-      onUploadComplete(response.data);
-    } catch (err) {
-      setError(err.response?.data?.error || "Error uploading file.");
-      console.error(err);
-    } finally {
-      setLoading(false);
+  const handleUpload = () => {
+    if (selectedFile) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const parsedData = reader.result;
+        onUploadComplete(parsedData); // Assuming JSON or text content
+      };
+      reader.readAsText(selectedFile);
     }
   };
 
   return (
-    <div className="mb-6">
+    <div className="flex flex-col space-y-4">
       <input
         type="file"
-        accept=".pdf,.docx,.txt"
         onChange={handleFileChange}
-        className="hidden"
-        id="file-upload"
+        className="bg-gray-900 text-gray-300 rounded-md"
       />
-      <label
-        htmlFor="file-upload"
-        className="cursor-pointer px-8 py-3 bg-green-600 text-white font-medium rounded-lg hover:bg-green-700 transition duration-200"
+      <button
+        onClick={handleUpload}
+        className="bg-blue-600 text-white font-semibold py-2 px-4 rounded-md hover:bg-blue-700 transition"
       >
-        Select Resume
-      </label>
-      {file && (
-        <p className="mt-2 text-gray-300 font-medium">
-          Selected File: {file.name}
-        </p>
-      )}
-      <div className="mt-6 flex justify-center">
-        <button
-          onClick={handleFileUpload}
-          disabled={loading}
-          className={`px-8 py-3 font-medium text-white rounded-lg transform transition duration-200 ${
-            loading
-              ? "bg-gray-500 cursor-not-allowed"
-              : "bg-green-600 hover:bg-green-700"
-          }`}
-        >
-          {loading ? "Uploading..." : "Upload & Analyze"}
-        </button>
-      </div>
-      {error && <p className="mt-4 text-red-500 font-medium">{error}</p>}
+        Upload Resume
+      </button>
     </div>
   );
 };
