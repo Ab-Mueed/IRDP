@@ -24,7 +24,7 @@ def compare_job_and_resume(job_json, resume_json):
     prompt = f"""
     Compare the following Job Description and Candidate Resume and say FIT or NOT FIT as a general heading. 
     Give a rating out of 10, and explain the assessment for Industry, Experience, and Skills in separate lines. 
-    Also, explain reasons for not giving a perfect 10.
+    Also, explain reasons for not giving a perfect 10. And please do not include Markdown.
 
     Job Description:
     {job_json}

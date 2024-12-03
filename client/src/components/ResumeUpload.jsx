@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Button, CircularProgress } from "@mui/material";
 import axios from "axios";
 
 const ResumeUpload = ({ onUploadComplete }) => {
@@ -9,7 +8,7 @@ const ResumeUpload = ({ onUploadComplete }) => {
 
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
-    setError(""); // Clear previous errors
+    setError("");
   };
 
   const handleFileUpload = async () => {
@@ -28,16 +27,14 @@ const ResumeUpload = ({ onUploadComplete }) => {
         "http://127.0.0.1:5000/parse-resume",
         formData,
         {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
+          headers: { "Content-Type": "multipart/form-data" },
         }
       );
 
-      onUploadComplete(response.data); // Pass parsed data to parent component
+      onUploadComplete(response.data);
     } catch (err) {
-      setError(err.response?.data?.error || "An error occurred while uploading the file.");
-      console.error("Error uploading file:", err);
+      setError(err.response?.data?.error || "Error uploading file.");
+      console.error(err);
     } finally {
       setLoading(false);
     }
@@ -52,23 +49,31 @@ const ResumeUpload = ({ onUploadComplete }) => {
         className="hidden"
         id="file-upload"
       />
-      <label htmlFor="file-upload">
-        <Button variant="contained" color="secondary" component="span">
-          Select Resume
-        </Button>
+      <label
+        htmlFor="file-upload"
+        className="cursor-pointer px-8 py-3 bg-green-600 text-white font-medium rounded-lg hover:bg-green-700 transition duration-200"
+      >
+        Select Resume
       </label>
-      {file && <p className="mt-2">Selected File: {file.name}</p>}
-      <div className="mt-4">
-        <Button
-          variant="contained"
-          color="primary"
+      {file && (
+        <p className="mt-2 text-gray-300 font-medium">
+          Selected File: {file.name}
+        </p>
+      )}
+      <div className="mt-6 flex justify-center">
+        <button
           onClick={handleFileUpload}
           disabled={loading}
+          className={`px-8 py-3 font-medium text-white rounded-lg transform transition duration-200 ${
+            loading
+              ? "bg-gray-500 cursor-not-allowed"
+              : "bg-green-600 hover:bg-green-700"
+          }`}
         >
-          {loading ? <CircularProgress size={24} /> : "Upload & Analyze"}
-        </Button>
+          {loading ? "Uploading..." : "Upload & Analyze"}
+        </button>
       </div>
-      {error && <p className="mt-2 text-red-600">{error}</p>}
+      {error && <p className="mt-4 text-red-500 font-medium">{error}</p>}
     </div>
   );
 };

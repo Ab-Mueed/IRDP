@@ -3,21 +3,22 @@ import JobDescriptionForm from "./components/JobDescription";
 import ResumeUpload from "./components/ResumeUpload";
 import CompareResults from "./components/CompareResult";
 import { parseJobDescriptionAPI, compareJobAndResumeAPI } from "./services/api";
-import { Button, CircularProgress } from "@mui/material";
 
 const App = () => {
   const [jobDescription, setJobDescription] = useState("");
-  const [resumeData, setResumeData] = useState(null); // Store parsed resume data
+  const [resumeData, setResumeData] = useState(null);
   const [comparisonResult, setComparisonResult] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(""); // Handle errors
+  const [error, setError] = useState("");
+  const [jobDescResponse, setJobDescResponse] = useState(""); // New state for storing job description response
 
   const handleJobDescriptionSubmit = async (description) => {
     setLoading(true);
-    setError(""); // Clear previous errors
+    setError("");
     try {
       const jobDescData = await parseJobDescriptionAPI(description);
       setJobDescription(jobDescData);
+      setJobDescResponse(jobDescData); // Store the response here
     } catch (err) {
       setError("Failed to parse job description.");
       console.error(err);
@@ -27,7 +28,7 @@ const App = () => {
   };
 
   const handleResumeUpload = async (parsedResumeData) => {
-    setResumeData(parsedResumeData); // Directly store parsed resume data
+    setResumeData(parsedResumeData);
   };
 
   const handleCompare = async () => {
@@ -37,7 +38,7 @@ const App = () => {
     }
 
     setLoading(true);
-    setError(""); // Clear previous errors
+    setError("");
     try {
       const result = await compareJobAndResumeAPI(jobDescription, resumeData);
       setComparisonResult(result);
@@ -49,33 +50,77 @@ const App = () => {
     }
   };
 
+  // Helper function to render the job description response as a list of items
+  const renderJobDescResponse = (response) => {
+    if (typeof response === 'object' && response !== null) {
+      return Object.keys(response).map((key) => {
+        // Check if the value is an array (e.g., Skills) and join with commas
+        if (Array.isArray(response[key])) {
+          return (
+            <div key={key} className="mb-4">
+              <strong className="text-lg">{key}:</strong>
+              <p>{response[key].join(", ")}</p> {/* Join array values with commas */}
+            </div>
+          );
+        } else {
+          return (
+            <div key={key} className="mb-4">
+              <strong className="text-lg">{key}:</strong>
+              <p>{response[key]}</p>
+            </div>
+          );
+        }
+      });
+    }
+    return <p>{response}</p>;
+  };
+
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-6">Job Fit Analyzer</h1>
-
-      <JobDescriptionForm onSubmit={handleJobDescriptionSubmit} />
-      <ResumeUpload onUploadComplete={handleResumeUpload} />
-
-      <div className="mt-4">
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={handleCompare}
-          disabled={loading}
-        >
-          Compare
-        </Button>
-      </div>
-
-      {loading && (
-        <div className="mt-4">
-          <CircularProgress />
+    <div className="min-h-screen bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center p-6">
+      <div className="w-full max-w-5xl bg-gray-800 text-white rounded-lg shadow-lg p-8 flex">
+        <div className="flex-1 mr-8">
+          <h1 className="text-5xl font-extrabold text-white mb-8 text-center">
+            Job Fit Analyzer
+          </h1>
+          <JobDescriptionForm onSubmit={handleJobDescriptionSubmit} />
+          <ResumeUpload onUploadComplete={handleResumeUpload} />
+          <div className="mt-8 flex justify-center space-x-6">
+            <button
+              onClick={handleCompare}
+              disabled={loading}
+              className={`px-8 py-3 text-white font-semibold rounded-lg transform transition duration-200 ${
+                loading
+                  ? "bg-gray-500 cursor-not-allowed"
+                  : "bg-gray-600 hover:bg-gray-700"
+              }`}
+            >
+              {loading ? "Processing..." : "Compare"}
+            </button>
+          </div>
+          {error && (
+            <p className="mt-4 text-center text-red-500 font-medium">{error}</p>
+          )}
         </div>
-      )}
 
-      {error && <p className="mt-4 text-red-600">{error}</p>}
+        <div className="flex-1">
+          {jobDescResponse && (
+            <div className="mt-8 bg-gray-700 p-4 rounded-lg shadow-md">
+              <h2 className="text-xl font-semibold text-white mb-4">
+                Job Description Output:
+              </h2>
+              <div className="text-gray-300">
+                {renderJobDescResponse(jobDescResponse)}
+              </div>
+            </div>
+          )}
 
-      {comparisonResult && <CompareResults comparisonResult={comparisonResult} />}
+          {comparisonResult && (
+            <div className="mt-8">
+              <CompareResults comparisonResult={comparisonResult} />
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   );
 };
