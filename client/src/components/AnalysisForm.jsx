@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Upload } from 'lucide-react';
 import { parseJobDescriptionAPI, parseResumeAPI, compareJobAndResumeAPI } from "@/services/api"; // Importing the API functions
+import { Progress } from "@/components/ui/progress"; // Import the progress bar component
 
 export default function AnalysisForm({ onAnalyzeJobDescription, onAnalyzeResume, onCompare }) {
   const [jobDescription, setJobDescription] = useState("");
@@ -11,13 +12,27 @@ export default function AnalysisForm({ onAnalyzeJobDescription, onAnalyzeResume,
   const [isResumeAnalyzed, setIsResumeAnalyzed] = useState(false);
   const [jobAnalysis, setJobAnalysis] = useState(""); // To store job analysis result
   const [resumeAnalysis, setResumeAnalysis] = useState(""); // To store resume analysis result
+  const [progress, setProgress] = useState(0); // Progress bar value
+  const [isProgressVisible, setIsProgressVisible] = useState(false); // Whether progress bar is visible
 
   const handleAnalyzeJobDescription = async () => {
+    setIsProgressVisible(true);
+    setProgress(0); // Reset progress
+    // Simulating progress as the API works
+    const timer = setInterval(() => {
+      setProgress((prev) => {
+        if (prev < 100) return prev + 10;
+        clearInterval(timer); // Stop progress once it's complete
+        return 100;
+      });
+    }, 300); // Update every 300ms to simulate progress
+
     const analysis = await parseJobDescriptionAPI(jobDescription);
     const analysisText = JSON.stringify(analysis, null, 2);
     setJobAnalysis(analysis); // Update state with job description analysis
     console.log(analysisText);
     setIsJobDescriptionAnalyzed(true);
+    setIsProgressVisible(false); // Hide progress bar
     onAnalyzeJobDescription(analysis); // Pass the analysis to parent component
   };
 
@@ -30,6 +45,17 @@ export default function AnalysisForm({ onAnalyzeJobDescription, onAnalyzeResume,
   };
 
   const handleAnalyzeResume = async () => {
+    setIsProgressVisible(true);
+    setProgress(0); // Reset progress
+    // Simulating progress as the API works
+    const timer = setInterval(() => {
+      setProgress((prev) => {
+        if (prev < 100) return prev + 10;
+        clearInterval(timer); // Stop progress once it's complete
+        return 100;
+      });
+    }, 300); // Update every 300ms to simulate progress
+
     if (resumeFile) {
       const analysis = await parseResumeAPI(resumeFile);
       const analysisText = JSON.stringify(analysis, null, 2);
@@ -37,16 +63,28 @@ export default function AnalysisForm({ onAnalyzeJobDescription, onAnalyzeResume,
       console.log('Analysis Text: ' + analysisText);
       console.log(analysis);
       setIsResumeAnalyzed(true);
+      setIsProgressVisible(false); // Hide progress bar
       onAnalyzeResume(analysis); // Pass the analysis to parent component
     }
   };
 
   const handleCompare = async () => {
+    setIsProgressVisible(true);
+    setProgress(0); // Reset progress
+    // Simulating progress as the API works
+    const timer = setInterval(() => {
+      setProgress((prev) => {
+        if (prev < 100) return prev + 10;
+        clearInterval(timer); // Stop progress once it's complete
+        return 100;
+      });
+    }, 300); // Update every 300ms to simulate progress
+
     if (jobAnalysis && resumeAnalysis) {
       const comparison = await compareJobAndResumeAPI(jobAnalysis, resumeAnalysis);
-      console.log(comparison)
       onCompare(comparison.comparison); // Pass comparison result to parent component
     }
+    setIsProgressVisible(false); // Hide progress bar
   };
 
   const formatFileSize = (bytes) => {
@@ -105,15 +143,22 @@ export default function AnalysisForm({ onAnalyzeJobDescription, onAnalyzeResume,
           </Button>
         </div>
         <div className="flex items-stretch">
-        <Button 
-          onClick={handleCompare} 
-          className="w-full" 
-          disabled={!isJobDescriptionAnalyzed || !isResumeAnalyzed} 
-          variant="default"
-        >
-          Compare
-        </Button>
+          <Button 
+            onClick={handleCompare} 
+            className="w-full" 
+            disabled={!isJobDescriptionAnalyzed || !isResumeAnalyzed} 
+            variant="default"
+          >
+            Compare
+          </Button>
         </div>
+
+        {/* Progress Bar visible only when in progress */}
+        {isProgressVisible && (
+          <div className="mt-4">
+            <Progress value={progress} className="w-[50%] mx-auto" />
+          </div>
+        )}
       </div>
     </div>
   );

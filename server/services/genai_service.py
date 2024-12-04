@@ -38,17 +38,16 @@ def compare_job_and_resume(job_json, resume_json):
     9/10 (Excellent Match): The resume aligns with the job description almost perfectly, but there are very minor discrepancies.
     10/10 (Perfect Match): The resume fully matches the job description with no gaps or discrepancies.
 
-    Give a rating of 10 for Industry, Experience and Skills.
-    Industry: Explain the alignment of the resume’s industry with the job description’s industry requirements.
-    Experience: Analyze whether the candidate’s experience matches the expectations set by the job description (duration, relevance, etc.).
-    Skills: Evaluate the skills in the resume and their relevance to the skills listed in the job description.
+
+    Industry: Give Rating out of 10 - Explain the alignment of the resume’s industry with the job description’s industry requirements.
+    Experience: Give Rating out of 10 - Analyze whether the candidate’s experience matches the expectations set by the job description (duration, relevance, etc.).
+    Skills: Give Rating out of 10 - Evaluate the skills in the resume and their relevance to the skills listed in the job description.
     
     Why not a perfect 10?: Explain the reasons for not giving a perfect score of 10, detailing any small discrepancies or areas for improvement.
 
     Job Description Match: Based on the analysis of the resume, what type of job description would align best with the candidate’s current skill set? If applicable, suggest jobs that would be a better fit.
 
-    Focus Areas for Improvement: If the user still wants to focus on the current job description (the one compared with), suggest a roadmap for acquiring the missing skills or improving the areas that do not align well with the job description. What specific areas of knowledge or skills should the candidate focus on to improve their match? 
-
+    Focus Areas for Improvement: If the user still wants to focus on the current job description (the one compared with), suggest a roadmap in paragraph.
 
     Job Description
     {job_json}
@@ -58,3 +57,4 @@ def compare_job_and_resume(job_json, resume_json):
     """
     response = model.generate_content(prompt)
     return response.text
+

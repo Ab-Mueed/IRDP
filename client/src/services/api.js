@@ -41,3 +41,4 @@ export const compareJobAndResumeAPI = async (jobDesc, resumeDesc) => {
     console.error("Error comparing job and resume", error);
   }
 };
+

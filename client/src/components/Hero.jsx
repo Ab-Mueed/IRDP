@@ -1,29 +1,21 @@
-import Image from '../assets/image.png'
+import {
+  TextRevealCard,
+  TextRevealCardDescription,
+  TextRevealCardTitle,
+} from "./ui/text-reveal-card";
 
-export default function Hero() {
-    return (
-      <div className="relative h-80  sm:h-96 lg:h-[30rem]">
-        {/* Background Image */}
-        <div
-          className="absolute inset-0 bg-cover bg-center"
-          style={{
-            backgroundImage: `url(${Image})`, // Replace with your image URL
-          }}
-        >
-          <div className="absolute inset-0 bg-black opacity-50" />
-        </div>
-  
-        {/* Text Overlay */}
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex flex-col justify-center items-center text-center">
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white">
-            <span className="block">Find out how well your resume</span>
-            <span className="block">matches a job description.</span>
-          </h1>
-          <p className="mt-4 text-sm sm:text-lg lg:text-xl text-gray-300 max-w-xl">
-            Upload your resume and a job description to see how they align.
-          </p>
-        </div>
-      </div>
-    );
-  }
-  
+export default function Hero({ rating }) {
+  return (
+    <div className="flex items-center justify-center h-auto sm:h-[20rem] mt-4 rounded-2xl w-full px-4">
+      <TextRevealCard text="Reveal Rating" revealText={rating}>
+        <TextRevealCardTitle>
+          Find out how well your resume matches a job description.
+        </TextRevealCardTitle>
+        <TextRevealCardDescription>
+          This is a rating reveal card. Hover over the card to see how closely
+          your resume aligns with the job description.
+        </TextRevealCardDescription>
+      </TextRevealCard>
+    </div>
+  );
+}
