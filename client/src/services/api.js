@@ -15,7 +15,7 @@ export const parseJobDescriptionAPI = async (description) => {
 
 export const parseResumeAPI = async (resume) => {
   const formData = new FormData();
-  formData.append("file", resume);
+  formData.append("resume_file", resume);
   try {
     const response = await axios.post(`${API_BASE_URL}/parse-resume`, formData, {
       headers: {
