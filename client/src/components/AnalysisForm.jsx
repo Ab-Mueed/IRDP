@@ -56,13 +56,13 @@ export default function AnalysisForm({ onAnalyzeJobDescription, onAnalyzeResume,
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
       <div className="space-y-4">
         <Textarea
           placeholder="Paste a job description"
           value={jobDescription}
           onChange={(e) => setJobDescription(e.target.value)}
-          className="min-h-[100px]"
+          className="min-h-[100px] w-full"
         />
         <Button 
           onClick={handleAnalyzeJobDescription} 
@@ -71,7 +71,7 @@ export default function AnalysisForm({ onAnalyzeJobDescription, onAnalyzeResume,
         >
           Analyze Job Description
         </Button>
-        <div className="flex items-center space-x-4">
+        <div className="flex flex-col sm:flex-row items-stretch sm:space-x-4 space-y-4 sm:space-y-0">
           <div 
             className="relative flex-1"
             onDragOver={(e) => e.preventDefault()}
@@ -88,7 +88,7 @@ export default function AnalysisForm({ onAnalyzeJobDescription, onAnalyzeResume,
               id="resume-upload"
               className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
               onChange={handleResumeUpload}
-              accept=".pdf,.doc,.docx"
+              accept=".pdf,.doc,.docx,.txt"
             />
             <Button variant="secondary" className="w-full">
               <Upload className="mr-2 h-4 w-4" />
@@ -104,6 +104,7 @@ export default function AnalysisForm({ onAnalyzeJobDescription, onAnalyzeResume,
             Analyze Resume
           </Button>
         </div>
+        <div className="flex items-stretch">
         <Button 
           onClick={handleCompare} 
           className="w-full" 
@@ -112,6 +113,7 @@ export default function AnalysisForm({ onAnalyzeJobDescription, onAnalyzeResume,
         >
           Compare
         </Button>
+        </div>
       </div>
     </div>
   );

@@ -1,6 +1,8 @@
 import axios from "axios";
 
-const API_BASE_URL = "http://127.0.0.1:5000"; // Update with your Flask server URL
+// const API_BASE_URL = "http://127.0.0.1:5000"; // Update with your Flask server URL
+const API_BASE_URL = "http://192.168.29.236:5000"; 
+
 
 export const parseJobDescriptionAPI = async (description) => {
   try {
