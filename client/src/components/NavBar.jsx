@@ -21,11 +21,11 @@ export default function NavBar() {
           </a>
           <button
             onClick={toggleTheme}
-            className="p-2 bg-gray-800 dark:bg-[#586063] text-white rounded-full hover:bg-gray-600"
+            // className="p-2 bg-gray-800 dark:bg-[#586063] text-white rounded-full hover:bg-gray-600"
           >
             {/* Display Sun icon for light mode, Moon icon for dark mode */}
             {isDarkMode ? (
-              <Moon className="h-5 w-5" />
+              <Moon className="h-5 w-5 text-white" />
             ) : (
               <Sun className="h-5 w-5" />
             )}
