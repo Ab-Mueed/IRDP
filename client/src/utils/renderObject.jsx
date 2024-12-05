@@ -1,16 +1,4 @@
-import { useEffect } from "react";
-
-export const renderObject = (data, onRatingExtracted) => {
-  useEffect(() => {
-    // Extract rating only once when data is a string and includes "Rating:"
-    if (typeof data === "string" && data.includes("Rating:")) {
-      const match = data.match(/Rating:\s*(\d+\/\d+)/);
-      if (match && match[1]) {
-        onRatingExtracted(match[1]); // Pass the extracted rating
-      }
-    }
-  }, [data, onRatingExtracted]); // Only rerun effect if 'data' changes
-
+export const renderObject = (data) => {
   if (typeof data === "object" && data !== null) {
     if (Array.isArray(data)) {
       return (
@@ -25,7 +13,7 @@ export const renderObject = (data, onRatingExtracted) => {
                   </div>
                 ))
               ) : (
-                <span className="text-gray-600">{item}</span>
+                <span className="text-gray-600 dark:text-[#586063]">{item}</span>
               )}
               {index < data.length - 1 && ", "}
             </span>
@@ -36,9 +24,9 @@ export const renderObject = (data, onRatingExtracted) => {
     return Object.keys(data).map((key) => (
       <div key={key}>
         <strong>{key}:</strong>
-        <div className="text-gray-600">
+        <div className="text-gray-600 dark:text-[#586063]">
           {Array.isArray(data[key]) || typeof data[key] === "object"
-            ? renderObject(data[key], onRatingExtracted)
+            ? renderObject(data[key])
             : data[key]}
         </div>
       </div>
@@ -47,7 +35,7 @@ export const renderObject = (data, onRatingExtracted) => {
     return data.split("\n\n").map((line, index) => {
       if (index === 0) {
         return (
-          <div key={index} className="text-2xl font-bold text-black mb-4">
+          <div key={index} className="text-2xl font-bold text-black dark:text-[#586063] mb-4">
             {line.trim()}
           </div>
         );
@@ -57,12 +45,12 @@ export const renderObject = (data, onRatingExtracted) => {
         return (
           <div key={index} className="mb-2">
             {key && <strong>{key}:</strong>}{" "}
-            {value && <span className="text-gray-600">{value}</span>}
+            {value && <span className="text-gray-600 dark:text-[#586063]">{value}</span>}
           </div>
         );
       }
     });
   } else {
-    return <p className="text-gray-600">{data}</p>;
+    return <p className="text-gray-600 dark:text-[#586063]">{data}</p>;
   }
 };

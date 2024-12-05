@@ -10,7 +10,7 @@ const AlertModal = ({ showAlert, onClose }) => {
           <AlertTitle className="text-lg">Welcome to the site!</AlertTitle>
           <AlertDescription>
             This website uses a large language model (LLM) in the backend to
-            compare job descriptions with resumes. The results may vary with
+            compare job descriptions with resume. The results may vary with
             each instance of comparison, as the LLM is not always 100% accurate
             and may contain some inaccuracies. Please note that the results may
             not always align with real-world expectations. The purpose of this

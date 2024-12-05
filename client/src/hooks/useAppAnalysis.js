@@ -14,9 +14,17 @@ export default function useAppAnalysis() {
   const handleCompare = (comparisonData, feedbackResult) => {
     setComparison(comparisonData);
     setFeedback(feedbackResult);
+    if (
+      typeof comparisonData === "string" &&
+      comparisonData.includes("Rating:")
+    ) {
+      const match = comparisonData.match(/Rating:\s*(\d+\/\d+)/);
+      if (match && match[1]) {
+        setRating(match[1]);
+      }
+    }
   };
 
-  const handleRatingExtracted = (extractedRating) => setRating(extractedRating);
   const handleAlertClose = () => setShowAlert(false);
 
   return {
@@ -29,7 +37,6 @@ export default function useAppAnalysis() {
     handleAnalyzeJobDescription,
     handleAnalyzeResume,
     handleCompare,
-    handleRatingExtracted,
-    handleAlertClose
+    handleAlertClose,
   };
 }

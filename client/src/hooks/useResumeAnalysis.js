@@ -12,6 +12,11 @@ const useResumeAnalysis = (onAnalyzeResume) => {
   const handleResumeUpload = (event) => {
     const file = event.target.files[0];
     if (file) {
+      const maxSizeInBytes = 6 * 1024 * 1024; // 6 MB
+      if (file.size > maxSizeInBytes) {
+        alert("File size exceeds the limit of 6 MB.");
+        return;
+      }
       setResumeFile(file);
       setIsResumeAnalyzed(false);
     }
