@@ -5,9 +5,11 @@ export default function Results({
   jobDescription,
   resumeAnalysis,
   comparison,
-  onRatingExtracted
+  feedback,
+  onRatingExtracted,
 }) {
-  const hasResults = jobDescription || resumeAnalysis || comparison;
+  const hasResults = jobDescription || resumeAnalysis || comparison || feedback;
+
 
   if (!hasResults) return null;
   
@@ -34,6 +36,12 @@ export default function Results({
           <div className="">
             <h3 className="text-lg font-medium mb-4 italic">Comparison Result</h3>
             {renderObject(comparison, onRatingExtracted)}
+          </div>
+        )}
+        {feedback && (
+          <div className="">
+            <h3 className="text-lg font-medium mb-4 italic">Feedback</h3>
+            {renderObject(feedback, onRatingExtracted)}
           </div>
         )}
       </div>

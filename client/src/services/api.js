@@ -42,3 +42,15 @@ export const compareJobAndResumeAPI = async (jobDesc, resumeDesc) => {
   }
 };
 
+export const getFeedbackAPI = async (jobDesc, resumeDesc) => {
+  try {
+    const response = await axios.post(`${API_BASE_URL}/feedback`, {
+      job_json: jobDesc,
+      resume_json: resumeDesc,
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching feedback", error);
+  }
+};
+

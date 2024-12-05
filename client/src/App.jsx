@@ -11,13 +11,16 @@ export default function Page() {
     resumeAnalysis,
     comparison,
     rating,
+    feedback,
     handleAnalyzeJobDescription,
     handleAnalyzeResume,
     handleCompare,
     handleRatingExtracted
   } = useAppAnalysis();
 
-  const hasResults = jobDescription || resumeAnalysis || comparison;
+
+
+  const hasResults = jobDescription || resumeAnalysis || comparison || feedback || feedback;
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -33,11 +36,12 @@ export default function Page() {
         <div className="mt-4">
           {hasResults && (
             <Tabs defaultValue="" className="w-full">
-              <div className="max-w-[580px] mx-auto">
+              <div className="max-w-[700px] mx-auto">
                 <TabsList className="flex md:flex-wrap flex-col justify-center gap-2 mb-4">
                   <TabsTrigger value="job-analysis">Job Description Analysis</TabsTrigger>
                   <TabsTrigger value="resume-analysis">Resume Analysis</TabsTrigger>
                   <TabsTrigger value="comparison-result">Comparison Result</TabsTrigger>
+                  <TabsTrigger value="feedback">Feedback</TabsTrigger>
                 </TabsList>
               </div>
               <TabsContent value="job-analysis">
@@ -45,6 +49,7 @@ export default function Page() {
                   jobDescription={jobDescription}
                   resumeAnalysis={null}
                   comparison={null}
+                  feedback={null}
                 />
               </TabsContent>
               <TabsContent value="resume-analysis">
@@ -52,6 +57,7 @@ export default function Page() {
                   jobDescription={null}
                   resumeAnalysis={resumeAnalysis}
                   comparison={null}
+                  feedback={null}
                 />
               </TabsContent>
               <TabsContent value="comparison-result">
@@ -59,6 +65,16 @@ export default function Page() {
                   jobDescription={null}
                   resumeAnalysis={null}
                   comparison={comparison}
+                  feedback={null}
+                  onRatingExtracted={handleRatingExtracted}
+                />
+              </TabsContent>
+              <TabsContent value="feedback">
+                <Results
+                  jobDescription={null}
+                  resumeAnalysis={null}
+                  comparison={null}
+                  feedback={feedback}
                   onRatingExtracted={handleRatingExtracted}
                 />
               </TabsContent>

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { compareJobAndResumeAPI } from "@/services/api";
+import { compareJobAndResumeAPI, getFeedbackAPI } from "@/services/api";
 import { simulateProgress } from "../utils/helper";
 
 const useCompare = (onCompare, jobAnalysis, resumeAnalysis) => {
@@ -12,11 +12,21 @@ const useCompare = (onCompare, jobAnalysis, resumeAnalysis) => {
     const timer = simulateProgress(setProgress);
 
     if (jobAnalysis && resumeAnalysis) {
-      const comparison = await compareJobAndResumeAPI(
-        jobAnalysis,
-        resumeAnalysis
-      );
-      onCompare(comparison.comparison);
+      try {
+        const comparison = await compareJobAndResumeAPI(
+          jobAnalysis,
+          resumeAnalysis
+        );
+        const feedbackResult = await getFeedbackAPI(
+          jobAnalysis,
+          resumeAnalysis
+        );
+        console.log(comparison)
+        console.log(feedbackResult)
+        onCompare(comparison.comparison, feedbackResult.comparison);
+      } catch (error) {
+        console.error("Error during comparison or feedback fetch", error);
+      }
     }
     setIsProgressVisible(false);
     clearInterval(timer);
