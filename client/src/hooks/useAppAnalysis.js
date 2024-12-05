@@ -7,6 +7,7 @@ export default function useAppAnalysis() {
   const [comparison, setComparison] = useState("");
   const [feedback, setFeedback] = useState("");
   const [rating, setRating] = useState("Compare to Reveal the Rating");
+  const [showAlert, setShowAlert] = useState(true);
 
   const handleAnalyzeJobDescription = (text) => setJobDescription(text);
   const handleAnalyzeResume = (text) => setResumeAnalysis(text);
@@ -16,6 +17,7 @@ export default function useAppAnalysis() {
   };
 
   const handleRatingExtracted = (extractedRating) => setRating(extractedRating);
+  const handleAlertClose = () => setShowAlert(false);
 
   return {
     jobDescription,
@@ -23,9 +25,11 @@ export default function useAppAnalysis() {
     comparison,
     feedback,
     rating,
+    showAlert,
     handleAnalyzeJobDescription,
     handleAnalyzeResume,
     handleCompare,
-    handleRatingExtracted
+    handleRatingExtracted,
+    handleAlertClose
   };
 }
