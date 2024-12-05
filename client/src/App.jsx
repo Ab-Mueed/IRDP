@@ -20,7 +20,7 @@ export default function Page() {
 
 
 
-  const hasResults = jobDescription || resumeAnalysis || comparison || feedback || feedback;
+  const hasResults = jobDescription || resumeAnalysis || comparison || feedback ;
 
   return (
     <div className="min-h-screen flex flex-col">
