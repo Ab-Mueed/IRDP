@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // const API_BASE_URL = "http://127.0.0.1:5000"; // Update with your Flask server URL
-const API_BASE_URL = "https://hirefitbackend.vercel.app";
+const API_BASE_URL = "https://hirefit-backend.onrender.com";
 
 export const parseJobDescriptionAPI = async (description) => {
   try {
