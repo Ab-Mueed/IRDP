@@ -1,8 +1,7 @@
 import axios from "axios";
 
 // const API_BASE_URL = "http://127.0.0.1:5000"; // Update with your Flask server URL
-const API_BASE_URL = "http://192.168.29.236:5000"; 
-
+const API_BASE_URL = "https://hirefitbackend.vercel.app";
 
 export const parseJobDescriptionAPI = async (description) => {
   try {
@@ -19,11 +18,15 @@ export const parseResumeAPI = async (resume) => {
   const formData = new FormData();
   formData.append("resume_file", resume);
   try {
-    const response = await axios.post(`${API_BASE_URL}/parse-resume`, formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
+    const response = await axios.post(
+      `${API_BASE_URL}/parse-resume`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
     return response.data;
   } catch (error) {
     console.error("Error parsing resume", error);
@@ -53,4 +56,3 @@ export const getFeedbackAPI = async (jobDesc, resumeDesc) => {
     console.error("Error fetching feedback", error);
   }
 };
-
