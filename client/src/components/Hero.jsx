@@ -8,7 +8,7 @@ export default function Hero({ rating }) {
   return (
     <div className="flex items-center justify-center h-auto sm:h-[20rem] mt-4 rounded-2xl w-full px-4">
       <TextRevealCard text="Reveal Rating" revealText={rating}>
-        <TextRevealCardTitle>
+        <TextRevealCardTitle className="text-2xl">
           Find out how well your resume matches a job description.
         </TextRevealCardTitle>
         <TextRevealCardDescription>

@@ -14,3 +14,4 @@ def compare():
 
     result = compare_job_and_resume(job_json, resume_json)
     return jsonify({"comparison": result})
+

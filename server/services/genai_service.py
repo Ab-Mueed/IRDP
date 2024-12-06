@@ -1,7 +1,7 @@
 from utils.response_cleaner import clean_json_response
 from utils.model import get_model
 
-# Temp
+# Temporary for Testing Purposes
 import logging
 logging.basicConfig(level=logging.DEBUG)
 
@@ -14,6 +14,7 @@ def parse_job_description(job_description):
     response = model.generate_content(prompt)
     logging.debug(f"Raw response: {response.text}")
     return clean_json_response(response.text)
+
 
 def parse_resume_text(resume_text):
     prompt = f"Extract the Industry, Experience, and Skill from the candidate's resume and show it in JSON format: {resume_text}"
