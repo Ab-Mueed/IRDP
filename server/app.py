@@ -4,7 +4,7 @@ from routes import job_route, resume_route, compare_route, feedback_route
 
 def create_app():
     app = Flask(__name__)
-    CORS(app)
+      CORS(app, resources={r"/*": {"origins": "https://hirefitfrontend.vercel.app"}})
 
     # Register routes
     app.register_blueprint(job_route.bp)
