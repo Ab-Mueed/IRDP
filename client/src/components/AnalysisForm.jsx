@@ -1,4 +1,4 @@
-import JobDescriptionTextarea from "./JobDescriptionTextarea";
+import JobDescriptionTextArea from "../components/JobDescriptionTextArea";
 import ResumeUpload from "./ResumeUpload";
 import ProgressBar from "./ProgressBar";
 import { Button } from "@/components/ui/button";
@@ -37,7 +37,7 @@ export default function AnalysisForm({ onAnalyzeJobDescription, onAnalyzeResume,
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
       <div className="space-y-4">
         {/* Job Description Text Area */}
-        <JobDescriptionTextarea
+        <JobDescriptionTextArea
           jobDescription={jobDescription}
           setJobDescription={setJobDescription}
           onAnalyzeJobDescription={handleAnalyzeJobDescription}

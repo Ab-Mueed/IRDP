@@ -2,7 +2,7 @@
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 
-const JobDescriptionTextarea = ({ jobDescription, setJobDescription, onAnalyzeJobDescription }) => {
+const JobDescriptionTextArea = ({ jobDescription, setJobDescription, onAnalyzeJobDescription }) => {
   return (
     <div>
       <Textarea
@@ -22,4 +22,4 @@ const JobDescriptionTextarea = ({ jobDescription, setJobDescription, onAnalyzeJo
   );
 };
 
-export default JobDescriptionTextarea;
+export default JobDescriptionTextArea;
